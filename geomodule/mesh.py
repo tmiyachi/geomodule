@@ -3,6 +3,10 @@
 メッシュコードを扱うための関数モジュール
 """
 
+
+from __future__ import annotations
+
+import math
 from typing import Tuple
 
 
@@ -39,7 +43,7 @@ def ms3_to_msjma5k(ms3code: str) -> str:
     return '{:02d}{:02d}{:01d}{:01d}{:01d}{:01d}'.format(iy1, ix1, iy2, ix2, iy3, ix3)
 
 
-def ms3_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
+def ms3_to_coord(code: str, ndigits: int = 6) -> Tuple[float]:
     """
     3次メッシュコードから対応する格子の座標を求める．
 
@@ -91,7 +95,7 @@ def ms3_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
     return coord_sw, coord_nw, coord_ne, coord_se
 
 
-def ms4_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
+def ms4_to_coord(code: str, ndigits: int = 6) -> Tuple[float]:
     """
     4次メッシュ（2分の1地域メッシュ）コードから対応する格子の座標を求める．
 
@@ -140,7 +144,7 @@ def ms4_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
     return coord_sw, coord_nw, coord_ne, coord_se
 
 
-def ms5_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
+def ms5_to_coord(code: str, ndigits: int = 6) -> Tuple[float]:
     """
     5次メッシュ（4分の1地域メッシュ）コードから対応する格子の座標を求める．
 
@@ -190,7 +194,7 @@ def ms5_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
     return coord_sw, coord_nw, coord_ne, coord_se
 
 
-def msjma5k_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
+def msjma5k_to_coord(code: str, ndigits: int = 6) -> Tuple[float]:
     """
     気象庁5kmメッシュコードから対応する格子の座標を求める．
 
@@ -243,7 +247,7 @@ def msjma5k_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
     return coord_sw, coord_nw, coord_ne, coord_se
 
 
-def ms3_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
+def ms3_to_polygon(code: str, ndigits: int = 6) -> Tuple[float]:
     """
     3次メッシュコードから対応する対応する格子のポリゴンの座標を返す．
 
@@ -271,7 +275,7 @@ def ms3_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
     return coord_sw, coord_nw, coord_ne, coord_se, coord_sw
 
 
-def ms4_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
+def ms4_to_polygon(code: str, ndigits: int = 6) -> Tuple[float]:
     """
     4次メッシュ（2分の1地域メッシュ）コードから対応する対応する格子のポリゴンの座標を返す．
 
@@ -299,7 +303,7 @@ def ms4_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
     return coord_sw, coord_nw, coord_ne, coord_se, coord_sw
 
 
-def ms5_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
+def ms5_to_polygon(code: str, ndigits: int = 6) -> Tuple[float]:
     """
     5次メッシュ（4分の1地域メッシュ）コードから対応する対応する格子のポリゴンの座標を返す．
 
@@ -328,7 +332,7 @@ def ms5_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
     return coord_sw, coord_nw, coord_ne, coord_se, coord_sw
 
 
-def msjma5k_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
+def msjma5k_to_polygon(code: str, ndigits: int = 6) -> Tuple[float]:
     """
     気象庁5kmメッシュコードから対応する対応する格子のポリゴンの座標を返す．
 
@@ -355,3 +359,48 @@ def msjma5k_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
     """
     coord_sw, coord_nw, coord_ne, coord_se = msjma5k_to_coord(code, ndigits=ndigits)
     return coord_sw, coord_nw, coord_ne, coord_se, coord_sw
+
+
+def coord_to_ms3(lat: int | float, lon: int | float) -> str:
+    """
+    緯度・経度から3次メッシュコードを求める．
+
+    Parameters
+    ----------
+    lat : int, float
+        緯度
+    lon : int, float
+        経度
+
+    Returns
+    -------
+    str
+        3次メッシュコード
+    """
+    iy1 = math.floor(lat * 60. / 40.)
+    iy2 = math.floor(lat * 60. % 40. / 5)
+    iy3 = math.floor(lat * 60. % 40. % 5 * 60 / 30)
+    ix1 = math.floor(lon - 100)
+    ix2 = math.floor((lon - 100 - ix1) * 60 / 7.5)
+    ix3 = math.floor(((lon - 100 - ix1) * 60 % 7.5) * 60 / 45)
+
+    return '{:02d}{:02d}{:d}{:d}{:d}{:d}'.format(iy1, ix1, iy2, ix2, iy3, ix3)
+
+
+def coord_to_msjma5k(lat: int | float, lon: int | float) -> str:
+    """
+    緯度・経度から気象庁5kmメッシュコードを求める．
+
+    Parameters
+    ----------
+    lat : int, float
+        緯度
+    lon : int, float
+        経度
+
+    Returns
+    -------
+    str
+        気象庁5kmメッシュコード
+    """
+    return ms3_to_msjma5k(coord_to_ms3(lat, lon))
