@@ -3,8 +3,10 @@
 メッシュコードを扱うための関数モジュール
 """
 
+from typing import Tuple
 
-def ms3_to_msjma5k(ms3code):
+
+def ms3_to_msjma5k(ms3code: str) -> str:
     """
     3次メッシュコードを気象庁5kmメッシュコードに変換する．
 
@@ -37,7 +39,7 @@ def ms3_to_msjma5k(ms3code):
     return '{:02d}{:02d}{:01d}{:01d}{:01d}{:01d}'.format(iy1, ix1, iy2, ix2, iy3, ix3)
 
 
-def ms3_to_coord(code, ndigits=6):
+def ms3_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
     """
     3次メッシュコードから対応する格子の座標を求める．
 
@@ -89,7 +91,7 @@ def ms3_to_coord(code, ndigits=6):
     return coord_sw, coord_nw, coord_ne, coord_se
 
 
-def ms4_to_coord(code, ndigits=6):
+def ms4_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
     """
     4次メッシュ（2分の1地域メッシュ）コードから対応する格子の座標を求める．
 
@@ -138,7 +140,7 @@ def ms4_to_coord(code, ndigits=6):
     return coord_sw, coord_nw, coord_ne, coord_se
 
 
-def ms5_to_coord(code, ndigits=6):
+def ms5_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
     """
     5次メッシュ（4分の1地域メッシュ）コードから対応する格子の座標を求める．
 
@@ -188,7 +190,7 @@ def ms5_to_coord(code, ndigits=6):
     return coord_sw, coord_nw, coord_ne, coord_se
 
 
-def msjma5k_to_coord(code, ndigits=6):
+def msjma5k_to_coord(code: str, ndigits: int = 6) -> Tuple[int]:
     """
     気象庁5kmメッシュコードから対応する格子の座標を求める．
 
@@ -241,7 +243,7 @@ def msjma5k_to_coord(code, ndigits=6):
     return coord_sw, coord_nw, coord_ne, coord_se
 
 
-def ms3_to_polygon(code, ndigits=6):
+def ms3_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
     """
     3次メッシュコードから対応する対応する格子のポリゴンの座標を返す．
 
@@ -269,7 +271,7 @@ def ms3_to_polygon(code, ndigits=6):
     return coord_sw, coord_nw, coord_ne, coord_se, coord_sw
 
 
-def ms4_to_polygon(code, ndigits=6):
+def ms4_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
     """
     4次メッシュ（2分の1地域メッシュ）コードから対応する対応する格子のポリゴンの座標を返す．
 
@@ -297,7 +299,7 @@ def ms4_to_polygon(code, ndigits=6):
     return coord_sw, coord_nw, coord_ne, coord_se, coord_sw
 
 
-def ms5_to_polygon(code, ndigits=6):
+def ms5_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
     """
     5次メッシュ（4分の1地域メッシュ）コードから対応する対応する格子のポリゴンの座標を返す．
 
@@ -326,7 +328,7 @@ def ms5_to_polygon(code, ndigits=6):
     return coord_sw, coord_nw, coord_ne, coord_se, coord_sw
 
 
-def msjma5k_to_polygon(code, ndigits=6):
+def msjma5k_to_polygon(code: str, ndigits: int = 6) -> Tuple[int]:
     """
     気象庁5kmメッシュコードから対応する対応する格子のポリゴンの座標を返す．
 
