@@ -231,8 +231,8 @@ def msjma5k_to_coord(code: str, ndigits: int = 6) -> Tuple[float]:
     dx = 0.0625
     dy = 0.05
 
-    lon = lon_ms3 + dx
-    lat = lat_ms3 + dy
+    lon = lon_ms3
+    lat = lat_ms3
 
     x1 = round(lon, ndigits)
     x2 = round(lon + dx, ndigits)
